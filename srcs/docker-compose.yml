@@ -1,0 +1,63 @@
+version: '3.9'
+
+services:
+  nginx:
+    image:      nginx
+    build:      ./nginx
+    container_name: nginx
+    # depends_on:
+    #   - wordpress
+    restart: on-failure
+    networks:
+      - inception
+    ports:
+      - 443:443
+    volumes:
+      - wordpress_volume:/var/www/html
+
+  mariadb:
+    image:  mariadb
+    build:  ./mariadb
+    container_name: mariadb
+    restart: on-failure
+    networks:
+      - inception
+    ports:
+      - 3306:3306
+    env_file:
+      - ./.env
+    volumes:
+      - db_volume:/var/lib/mysql
+
+  wordpress:
+    image:      wordpress
+    build:      ./wordpress
+    container_name: wordpress
+    depends_on:
+      - mariadb
+    restart: on-failure
+    networks:
+      - inception
+    ports:
+      - 9000:9000
+    volumes:
+      - wordpress_volume:/var/www/html
+
+volumes:
+  db_volume:
+    name: "db_volume"
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/dima/42/inception/data/db_volume
+  wordpress_volume:
+    name: "wordpress_volume"
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/dima/42/inception/data/wordpress_volume
+
+networks:
+  inception:
+    name: inception
+    driver: bridge
