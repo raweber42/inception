@@ -1,7 +1,5 @@
 FROM debian:buster
 
-# RUN apt update && apt install -y php7.3 php-curl php-gd php-mbstring php-xml php-xmlrpc php-soap php-intl php-zip wget unzip
-# RUN apt-get update && apt-get install -y php7.3 php-mysqli php-fpm wget unzip sendmail
 RUN apt-get update && apt-get install -y php-mysql php-fpm mariadb-client wget unzip
 
 RUN mkdir -p /var/www/html

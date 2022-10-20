@@ -2,8 +2,8 @@ version: '3.9'
 
 services:
   nginx:
-    image:      nginx
-    build:      ./requirements/nginx
+    image: nginx
+    build: ./requirements/nginx
     container_name: nginx
     depends_on:
       - wordpress
@@ -12,8 +12,6 @@ services:
       - inception
     ports:
       - 443:443
-    extra_hosts:
-      - "raweber.42.fr:127.0.0.1"
     volumes:
       - wordpress_volume:/var/www/wordpress
 
