@@ -3,21 +3,23 @@ version: '3.9'
 services:
   nginx:
     image:      nginx
-    build:      ./nginx
+    build:      ./requirements/nginx
     container_name: nginx
-    # depends_on:
-    #   - wordpress
+    depends_on:
+      - wordpress
     restart: on-failure
     networks:
       - inception
     ports:
       - 443:443
+    extra_hosts:
+      - "raweber.42.fr:127.0.0.1"
     volumes:
-      - wordpress_volume:/var/www/html
+      - wordpress_volume:/var/www/wordpress
 
   mariadb:
     image:  mariadb
-    build:  ./mariadb
+    build:  ./requirements/mariadb
     container_name: mariadb
     restart: on-failure
     networks:
@@ -31,7 +33,7 @@ services:
 
   wordpress:
     image:      wordpress
-    build:      ./wordpress
+    build:      ./requirements/wordpress
     container_name: wordpress
     depends_on:
       - mariadb
@@ -41,7 +43,7 @@ services:
     ports:
       - 9000:9000
     volumes:
-      - wordpress_volume:/var/www/html
+      - wordpress_volume:/var/www/wordpress
 
 volumes:
   db_volume:
@@ -49,13 +51,13 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/dima/42/inception/data/db_volume
+      device: /home/dima/dev/42/inception/data/db_volume
   wordpress_volume:
     name: "wordpress_volume"
     driver_opts:
       type: none
       o: bind
-      device: /home/dima/42/inception/data/wordpress_volume
+      device: /home/dima/dev/42/inception/data/wordpress_volume
 
 networks:
   inception:
