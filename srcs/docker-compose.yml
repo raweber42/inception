@@ -43,6 +43,16 @@ services:
     volumes:
       - wordpress_volume:/var/www/wordpress
 
+  static_website:
+    image:    static_website
+    build:    ./requirements/bonus/static_website
+    container_name: static_website
+    restart: on-failure
+    networks:
+      - inception
+    ports:
+      - 3000:3000
+
 volumes:
   db_volume:
     name: "db_volume"
