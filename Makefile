@@ -13,7 +13,7 @@ $(NAME): all
 
 all: clean up
 
-up: add-hosts-entry
+up:
 	mkdir -p /home/dima/dev/42/inception/data/wordpress_volume
 	mkdir -p /home/dima/dev/42/inception/data/db_volume
 	@echo "$(RED)Building containers for $(NAME)...$(UNDO_COL)"
@@ -41,9 +41,5 @@ fclean: clean
 re: clean up
 
 destroy: fclean up
-
-add-hosts-entry:
-	SERVICES=$$(command -v getent > /dev/null && echo "getent ahostsv4" || echo "dscacheutil -q host -a name"); \
-	if [ ! "$$($$SERVICES $(HOST) | grep 127.0.0.1 > /dev/null; echo $$?)" -eq 0 ]; then sudo bash -c 'echo "127.0.0.1 $(HOST)" >> /etc/hosts; echo "Entry was added"'; else echo 'Entry already exists'; fi;
 
 .PHONY: all up down clean re
