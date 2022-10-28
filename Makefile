@@ -14,8 +14,8 @@ $(NAME): all
 all: clean up
 
 up:
-	mkdir -p /home/dima/dev/42/inception/data/wordpress_volume
-	mkdir -p /home/dima/dev/42/inception/data/db_volume
+	mkdir -p /home/raweber/data/wordpress_volume
+	mkdir -p /home/raweber/data/db_volume
 	@echo "$(RED)Building containers for $(NAME)...$(UNDO_COL)"
 	docker-compose -f $(SRC) up -d --build
 	@echo "$(GREEN)$(NAME) is now up and running!$(UNDO_COL)"
@@ -34,8 +34,8 @@ fclean: clean
 	@echo "$(RED)Removing all volumes AND MOUNTED DIRECTORIES for $(NAME)...$(UNDO_COL)"
 	docker volume rm -f db_volume
 	docker volume rm -f wordpress_volume
-	sudo rm -rf /home/dima/dev/42/inception/data/wordpress_volume
-	sudo rm -rf /home/dima/dev/42/inception/data/db_volume
+	sudo rm -rf /home/raweber/data/wordpress_volume
+	sudo rm -rf /home/raweber/data/db_volume
 	@echo "$(GREEN)Removed all volumes for $(NAME)!$(UNDO_COL)"
 
 re: clean up

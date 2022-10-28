@@ -61,13 +61,13 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/dima/dev/42/inception/data/db_volume
+      device: /home/raweber/data/db_volume
   wordpress_volume:
     name: "wordpress_volume"
     driver_opts:
       type: none
       o: bind
-      device: /home/dima/dev/42/inception/data/wordpress_volume
+      device: /home/raweber/data/wordpress_volume
 
 networks:
   inception:
