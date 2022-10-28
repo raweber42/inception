@@ -15,14 +15,14 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 RUN chmod +x wp-cli.phar
 RUN mv wp-cli.phar /usr/local/bin/wp-cli
 
-COPY --chown=www-data:www-data conf/wordpress-entrypoint.sh /var/www/wordpress/wordpress-entrypoint.sh
-RUN chmod +x /var/www/wordpress/wordpress-entrypoint.sh
+COPY --chown=www-data:www-data conf/wordpress-entrypoint.sh /var/www/wordpress/wordpress-entrypoint_backup.sh
+RUN chmod +x /var/www/wordpress/wordpress-entrypoint_backup.sh
 COPY --chown=www-data:www-data conf/www.conf /etc/php/7.3/fpm/pool.d
 
 EXPOSE 9000
 
 WORKDIR /var/www/wordpress
 
-ENTRYPOINT ["/bin/bash", "/var/www/wordpress/wordpress-entrypoint.sh"] 
+ENTRYPOINT ["/bin/bash", "/var/www/wordpress/wordpress-entrypoint_backup.sh"] 
 
 CMD ["/usr/sbin/php-fpm7.3", "-F"]
