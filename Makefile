@@ -31,7 +31,7 @@ clean: down
 	@echo "$(GREEN)Cleaned up, volumes still exist for $(NAME)!$(UNDO_COL)"
 
 fclean: clean
-	@echo "$(RED)Removing ALL volumes for $(NAME)...$(UNDO_COL)"
+	@echo "$(RED)Removing all volumes AND MOUNTED DIRECTORIES for $(NAME)...$(UNDO_COL)"
 	docker volume rm -f db_volume
 	docker volume rm -f wordpress_volume
 	sudo rm -rf /home/dima/dev/42/inception/data/wordpress_volume

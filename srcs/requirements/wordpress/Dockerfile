@@ -1,6 +1,6 @@
 FROM debian:buster
 
-RUN apt-get update && apt-get install -y php-mysql php-fpm mariadb-client wget unzip
+RUN apt-get update && apt-get install -y php-mysql php-fpm mariadb-client wget unzip curl sendmail
 
 RUN mkdir -p /var/www/html
 WORKDIR /var/www/
@@ -8,16 +8,21 @@ WORKDIR /var/www/
 RUN wget https://wordpress.org/latest.zip
 RUN unzip /var/www/latest.zip
 RUN rm -f /var/www/latest.zip
-RUN chown -R www-data:www-data /var/www/wordpress/
-
+RUN chown -R www-data:www-data /var/www/
 RUN mkdir -p /run/php
 RUN chown www-data:www-data /run/php
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+RUN chmod +x wp-cli.phar
+RUN mv wp-cli.phar /usr/local/bin/wp-cli
 
-COPY --chown=www-data:www-data conf/wp-config.php /var/www/wordpress/
-COPY --chown=www-data:www-data conf/wordpress-entrypoint.sh /tmp/wordpress-entrypoint.sh
+COPY --chown=www-data:www-data conf/wordpress-entrypoint.sh /var/www/wordpress/wordpress-entrypoint.sh
+RUN chmod +x /var/www/wordpress/wordpress-entrypoint.sh
 COPY --chown=www-data:www-data conf/www.conf /etc/php/7.3/fpm/pool.d
 
-RUN rm -f /var/www/wordpress/wp-config-sample.php
 EXPOSE 9000
 
-CMD ["/bin/bash", "/tmp/wordpress-entrypoint.sh"]
+WORKDIR /var/www/wordpress
+
+ENTRYPOINT ["/bin/bash", "/var/www/wordpress/wordpress-entrypoint.sh"] 
+
+CMD ["/usr/sbin/php-fpm7.3", "-F"]

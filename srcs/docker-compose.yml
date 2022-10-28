@@ -40,6 +40,8 @@ services:
       - inception
     ports:
       - 9000:9000
+    env_file:
+      - ./.env
     volumes:
       - wordpress_volume:/var/www/wordpress
 
@@ -71,3 +73,9 @@ networks:
   inception:
     name: inception
     driver: bridge
+
+
+# for eval:
+# docker stop $(docker ps -qa); docker rm $(docker ps -qa);
+# docker rmi -f $(docker images -qa); docker volume rm $(docker volume ls -q);
+# docker network rm $(docker network ls -q) 2>/dev/null
